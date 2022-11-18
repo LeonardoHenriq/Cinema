@@ -1,4 +1,8 @@
-using Cinema.API.Data;
+using Cinema.Application;
+using Cinema.Application.Contratos;
+using Cinema.Persistence;
+using Cinema.Persistence.Contextos;
+using Cinema.Persistence.Contratos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +25,21 @@ namespace Cinema.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(
+            services.AddDbContext<CinemaContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddScoped<IFilmeService, FilmeService>();
+            services.AddScoped<ISessaoService, SessaoService>();
+            services.AddScoped<ISalaService,SalaService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IFilmePersist, FilmePersist>();
+            services.AddScoped<ISessaoPersist, SessaoPersist>();
+            services.AddScoped<ISalaPersist,SalaPersist>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cinema.API", Version = "v1" });

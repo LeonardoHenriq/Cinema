@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Cinema.API.Data;
-using Cinema.API.Models;
+﻿using Cinema.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Cinema.Application.Contratos;
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Cinema.API.Controllers
 {
@@ -10,37 +11,89 @@ namespace Cinema.API.Controllers
     [Route("api/[controller]")]
     public class FilmeController : ControllerBase
     {
-        private readonly DataContext _context;
-        public FilmeController(DataContext context)
+        private readonly IFilmeService _filmeService;
+
+        public FilmeController(IFilmeService filmeService)
         {
-           _context = context;
+            this._filmeService = filmeService;
         }
 
         [HttpGet]
-        public IEnumerable<Filme> Get()
+        public async Task<IActionResult> Get()
         {
-            return _context.Filmes;
+            try
+            {
+                var filmes = await _filmeService.GetAllFilmesAsync();
+                if (filmes == null) return NotFound("Nenhum filme encontrado.");
+
+                return Ok(filmes);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar filmes: {ex.Message}");
+            }
         }
+
         [HttpGet("{id}")]
-        public Filme Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return _context.Filmes.FirstOrDefault(f => f.FilmeId == id);
+            try
+            {
+                var filme = await _filmeService.GetFilmesByIdAsync(id);
+                if (filme == null) return NotFound("Nenhum filme encontrado.");
+
+                return Ok(filme);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar filme: {ex.Message}");
+            }
         }
 
         [HttpPost]
-        public string Post()
+        public async Task<IActionResult> Post(Filme model)
         {
-            return "Exemplo de Post";
+            try
+            {
+                var filme = await _filmeService.AddFilme(model);
+                if (filme == null) return BadRequest("Erro ao tentar adicionar o filme.");
+
+                return Ok(filme);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar adicionar filme: {ex.Message}");
+            }
         }
+
         [HttpPut("{id}")]
-        public string Put(int id)
+        public async Task<IActionResult> Put(int id, Filme model)
         {
-            return $"Exemplo de Put com id = {id}";
+            try
+            {
+                var filme = await _filmeService.UpdateFilme(id, model);
+                if (filme == null) return BadRequest("Erro ao tentar atualizar o filme.");
+
+                return Ok(filme);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar atualizar filme: {ex.Message}");
+            }
         }
+
         [HttpDelete("{id}")]
-        public string Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return $"Exemplo de Delete com id = {id}";
+            try
+            {
+                if (await _filmeService.DeleteFilme(id)) return Ok("Excluido");
+                else return BadRequest("Filme não foi excluido");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar excluir filme: {ex.Message}");
+            }
         }
     }
 }
