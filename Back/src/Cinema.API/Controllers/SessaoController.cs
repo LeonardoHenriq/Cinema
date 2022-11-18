@@ -54,7 +54,7 @@ namespace Cinema.API.Controllers
         }
 
         [HttpGet("duracao-filme/{id}")]
-        public async Task<IActionResult> GetByDuracaofilme(int id)
+        public async Task<IActionResult> DuracaoFilme(int id)
         {
             try
             {

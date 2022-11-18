@@ -5,12 +5,15 @@ using Cinema.Persistence.Contextos;
 using Cinema.Persistence.Contratos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
 
 namespace Cinema.API
 {
@@ -60,12 +63,20 @@ namespace Cinema.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cinema.API v1"));
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
