@@ -4,6 +4,8 @@ using Cinema.Application.Contratos;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using Cinema.API.Dtos;
 
 namespace Cinema.API.Controllers
 {
@@ -26,7 +28,21 @@ namespace Cinema.API.Controllers
                 var filmes = await _filmeService.GetAllFilmesAsync();
                 if (filmes == null) return NotFound("Nenhum filme encontrado.");
 
-                return Ok(filmes);
+                var filmesRetorno = new List<FilmeDto>();
+
+                foreach (var filme in filmes)
+                {
+                    filmesRetorno.Add(new FilmeDto()
+                    {
+                        Id = filme.Id,
+                        ImagemURL = filme.ImagemURL,
+                        Titulo = filme.Titulo,
+                        Descricao = filme.Descricao,
+                        Duracao = filme.Duracao
+                    });
+                }
+
+                return Ok(filmesRetorno);
             }
             catch (Exception ex)
             {

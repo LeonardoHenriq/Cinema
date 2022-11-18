@@ -6,6 +6,7 @@ using Cinema.Application.Contratos;
 using Cinema.Domain;
 using Cinema.Persistence;
 using Cinema.Persistence.Contratos;
+using Cinema.Persistence.Migrations;
 
 namespace Cinema.Application
 {
@@ -23,6 +24,16 @@ namespace Cinema.Application
         {
             try
             {
+                var duracao = await _sessaoPersist.GetDuracaoFilme(model.FilmeId);
+
+                if(string.IsNullOrEmpty(duracao))
+                    throw new Exception($"Não foi possível encontrar a duração do filme");
+
+                model.HorarioFinal = model.HorarioInicial.AddTicks(TimeSpan.Parse(duracao).Ticks);
+
+                if (await _sessaoPersist.SalaAvailable(model.SalaId, model.HorarioInicial, model.HorarioFinal))
+                    throw new Exception($"Já existe um cadastro com os mesmos horarios para a sala informada");
+
                 _geralPersist.Add<Sessao>(model);
 
                 if (await _geralPersist.SaveChangesAsync())
@@ -42,7 +53,9 @@ namespace Cinema.Application
                 var sessao = await _sessaoPersist.GetSessoesByIdAsync(sessaoId);
                 if (sessao == null) throw new Exception("Sess�o para exclus�o n�o encontrada.");
 
-                if (sessao.DataSessao.Day - DateTime.Now.Day < 10) throw new Exception("Erro, sess�o s� pode ser excluida se faltar 10 ou mais para ocorrer.");
+                var test = sessao.DataSessao - DateTime.Today;
+
+                if (test.TotalDays < 10) throw new Exception("Erro, sess�o s� pode ser excluida se faltar 10 ou mais para ocorrer.");
 
                 _geralPersist.Delete<Sessao>(sessao);
                 return await _geralPersist.SaveChangesAsync();
@@ -84,7 +97,7 @@ namespace Cinema.Application
         {
             try
             {
-                var salas = await _sessaoPersist.GetSalasDisponiveisAsync(inicial,final);
+                var salas = await _sessaoPersist.GetSalasDisponiveisAsync(inicial, final);
                 if (salas == null && salas.Any()) throw new Exception("N�o existem salas dispon�veis para este hor�rio");
 
                 return salas;

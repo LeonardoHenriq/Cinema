@@ -45,6 +45,14 @@ namespace Cinema.Persistence
 
             return await resultado.ToArrayAsync();
         }
+        public async Task<bool> SalaAvailable(int salaId,DateTime inicial, DateTime final)
+        {
+            IQueryable<Sessao> query = _context.Sessoes;
+            var resultado = query.AsNoTracking().Where(s =>s.SalaId == salaId && (inicial >= s.HorarioInicial && inicial <= s.HorarioFinal) ||
+                                    (final <= s.HorarioInicial && final >= s.HorarioFinal)).Select(s => s.sala);
+
+            return await resultado.AnyAsync();
+        }
         public async Task<string> GetDuracaoFilme(int filmeId)
         {
             IQueryable<Filme> query = _context.Filmes;

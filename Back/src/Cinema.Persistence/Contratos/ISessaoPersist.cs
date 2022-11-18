@@ -10,6 +10,7 @@ namespace Cinema.Persistence.Contratos
         Task<Sessao> GetSessoesByIdAsync(int sessaoId);
         Task<bool> GetSessoesByFilmeAsync(int filmeId);
         Task<Sala[]> GetSalasDisponiveisAsync(DateTime inicial, DateTime final);
+        Task<bool> SalaAvailable(int salaId, DateTime inicial, DateTime final);
         Task<string> GetDuracaoFilme(int filmeId);
     }
 }

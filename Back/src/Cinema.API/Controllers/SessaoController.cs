@@ -1,8 +1,12 @@
-﻿using Cinema.Application;
+﻿using Cinema.API.Dtos;
+using Cinema.Application;
 using Cinema.Application.Contratos;
+using Cinema.Domain;
+using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cinema.API.Controllers
@@ -25,7 +29,25 @@ namespace Cinema.API.Controllers
                 var sessoes = await _sessaoService.GetAllSessoesAsync();
                 if (sessoes == null) return NotFound("Nenhuma sessão encontrada");
 
-                return Ok(sessoes);
+                var sessoesRetorno = new List<SessaoDto>();
+
+                foreach (var sessao in sessoes)
+                {
+                    sessoesRetorno.Add(new SessaoDto()
+                    {
+                        Id = sessao.Id,
+                        DataSessao = sessao.DataSessao.ToString(),
+                        HorarioInicial = sessao.HorarioInicial.ToString(),
+                        HorarioFinal = sessao.HorarioFinal.ToString(),
+                        ValorIngresso = sessao.ValorIngresso,
+                        TipoAnimacao = sessao.TipoAnimacao,
+                        TipoAudio = sessao.TipoAudio,
+                        FilmeId = sessao.FilmeId,
+                        SalaId = sessao.SalaId
+                    });
+                }
+
+                return Ok(sessoesRetorno);
             }
             catch (Exception ex)
             {
@@ -65,5 +87,33 @@ namespace Cinema.API.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post(Sessao model)
+        {
+            try
+            {
+                var sessao = await _sessaoService.AddSessao(model);
+                if (sessao == null) return BadRequest("Erro ao tentar adicionar uma sessão.");
+
+                return Ok(sessao);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar adicionar uma sessão: {ex.Message}");
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                if (await _sessaoService.DeleteSessao(id)) return Ok("Excluido");
+                else return BadRequest("sessão não foi excluida");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar excluir sessão: {ex.Message}");
+            }
+        }
     }
 }
