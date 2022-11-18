@@ -8,6 +8,6 @@ namespace Cinema.Domain
         public string ImagemURL { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
-        public string Duracao { get; set; }
+        public TimeSpan Duracao { get; set; }
     }
 }

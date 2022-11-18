@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Cinema.Application.Contratos;
+using Cinema.Application.Dtos;
 using Cinema.Domain;
 using Cinema.Persistence.Contratos;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -14,25 +16,33 @@ namespace Cinema.Application
         private readonly IGeralPersist _geralPersist;
         private readonly IFilmePersist _filmePersist;
         private readonly ISessaoPersist _sessaoPersist;
+        private readonly IMapper _mapper;
 
-        public FilmeService(IGeralPersist geralPersist, IFilmePersist filmePersist, ISessaoPersist sessaoPersist)
+        public FilmeService(IGeralPersist geralPersist, IFilmePersist filmePersist, ISessaoPersist sessaoPersist, IMapper mapper)
         {
             _geralPersist = geralPersist;
             _filmePersist = filmePersist;
             _sessaoPersist = sessaoPersist;
+            _mapper = mapper;
         }
-        public async Task<Filme> AddFilme(Filme model)
+        public async Task<FilmeDto> AddFilme(FilmeDto model)
         {
             try
             {
-                var verifica = await _filmePersist.GetAllFilmesByTituloAsync(model.Titulo);
+                var filme = _mapper.Map<Filme>(model);
+
+                var verifica = await _filmePersist.GetAllFilmesByTituloAsync(filme.Titulo);
                 if (verifica != null && verifica.Any())
                     throw new Exception("Já existe um filme com o mesmo titulo.");
 
-                _geralPersist.Add<Filme>(model);
+                _geralPersist.Add<Filme>(filme);
 
                 if (await _geralPersist.SaveChangesAsync())
-                    return await _filmePersist.GetFilmesByIdAsync(model.Id);
+                {
+                    var filmeRetorno = await _filmePersist.GetFilmesByIdAsync(filme.Id);
+
+                    return _mapper.Map<FilmeDto>(filmeRetorno);
+                }
 
                 return null;
             }
@@ -41,7 +51,7 @@ namespace Cinema.Application
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<Filme> UpdateFilme(int filmeId, Filme model)
+        public async Task<FilmeDto> UpdateFilme(int filmeId, FilmeDto model)
         {
             try
             {
@@ -54,10 +64,16 @@ namespace Cinema.Application
 
                 model.Id = filme.Id;
 
-                _geralPersist.Update(model);
+                _mapper.Map(model, filme);
+
+                _geralPersist.Update<Filme>(filme);
 
                 if (await _geralPersist.SaveChangesAsync())
-                    return await _filmePersist.GetFilmesByIdAsync(model.Id);
+                {
+                    var filmeRetorno = await _filmePersist.GetFilmesByIdAsync(filme.Id);
+
+                    return _mapper.Map<FilmeDto>(filmeRetorno);
+                }
 
                 return null;
             }
@@ -87,14 +103,16 @@ namespace Cinema.Application
             }
         }
 
-        public async Task<Filme[]> GetAllFilmesAsync()
+        public async Task<FilmeDto[]> GetAllFilmesAsync()
         {
             try
             {
                 var filmes = await _filmePersist.GetAllFilmesAsync();
                 if (filmes == null && filmes.Any()) return null;
 
-                return filmes;
+                var resultado = _mapper.Map<FilmeDto[]>(filmes);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -102,14 +120,16 @@ namespace Cinema.Application
             }
         }
 
-        public async Task<Filme[]> GetAllFilmesByTituloAsync(string titulo)
+        public async Task<FilmeDto[]> GetAllFilmesByTituloAsync(string titulo)
         {
             try
             {
                 var filmes = await _filmePersist.GetAllFilmesByTituloAsync(titulo);
                 if (filmes == null && filmes.Any()) return null;
 
-                return filmes;
+                var resultado = _mapper.Map<FilmeDto[]>(filmes);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -117,14 +137,16 @@ namespace Cinema.Application
             }
         }
 
-        public async Task<Filme> GetFilmesByIdAsync(int filmeId)
+        public async Task<FilmeDto> GetFilmesByIdAsync(int filmeId)
         {
             try
             {
-                var filmes = await _filmePersist.GetFilmesByIdAsync(filmeId);
-                if (filmes == null) return null;
+                var filme = await _filmePersist.GetFilmesByIdAsync(filmeId);
+                if (filme == null) return null;
 
-                return filmes;
+                var resultado = _mapper.Map<FilmeDto>(filme);
+
+                return resultado;
             }
             catch (Exception ex)
             {

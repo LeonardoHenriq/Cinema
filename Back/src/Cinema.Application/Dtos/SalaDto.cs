@@ -1,4 +1,4 @@
-namespace Cinema.API.Dtos
+namespace Cinema.Application.Dtos
 {
     public class SalaDto
     {

@@ -1,6 +1,6 @@
-﻿using Cinema.API.Dtos;
-using Cinema.Application;
+﻿using Cinema.Application;
 using Cinema.Application.Contratos;
+using Cinema.Application.Dtos;
 using Cinema.Domain;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using Microsoft.AspNetCore.Http;
@@ -26,28 +26,10 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                var sessoes = await _sessaoService.GetAllSessoesAsync();
-                if (sessoes == null) return NotFound("Nenhuma sessão encontrada");
+                var sessoes = await _sessaoService.GetAllSessoesAsync(true);
+                if (sessoes == null) return NoContent();
 
-                var sessoesRetorno = new List<SessaoDto>();
-
-                foreach (var sessao in sessoes)
-                {
-                    sessoesRetorno.Add(new SessaoDto()
-                    {
-                        Id = sessao.Id,
-                        DataSessao = sessao.DataSessao.ToString(),
-                        HorarioInicial = sessao.HorarioInicial.ToString(),
-                        HorarioFinal = sessao.HorarioFinal.ToString(),
-                        ValorIngresso = sessao.ValorIngresso,
-                        TipoAnimacao = sessao.TipoAnimacao,
-                        TipoAudio = sessao.TipoAudio,
-                        FilmeId = sessao.FilmeId,
-                        SalaId = sessao.SalaId
-                    });
-                }
-
-                return Ok(sessoesRetorno);
+                return Ok(sessoes);
             }
             catch (Exception ex)
             {
@@ -60,8 +42,8 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                var sessao = await _sessaoService.GetSessoesByIdAsync(id);
-                if (sessao == null) return NotFound("Nenhuma sessão encontrado.");
+                var sessao = await _sessaoService.GetSessoesByIdAsync(id,true);
+                if (sessao == null) return NoContent();
 
                 return Ok(sessao);
             }
@@ -77,7 +59,7 @@ namespace Cinema.API.Controllers
             try
             {
                 var duracao = await _sessaoService.GetDuracaoFilme(id);
-                if (TimeSpan.Parse(duracao) == new TimeSpan()) return NotFound("A duração do filme não foi encontrada.");
+                if (TimeSpan.Parse(duracao) == new TimeSpan()) return NoContent();
 
                 return Ok(duracao);
             }
@@ -88,7 +70,7 @@ namespace Cinema.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Sessao model)
+        public async Task<IActionResult> Post(SessaoDto model)
         {
             try
             {

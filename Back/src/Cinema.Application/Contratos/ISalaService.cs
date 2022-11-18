@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Cinema.Domain;
+using Cinema.Application.Dtos;
 
 namespace Cinema.Application.Contratos
 {
     public interface ISalaService
     {
-        Task<Sala[]> GetAllSalasAsync();
-        Task<Sala> GetSalasByIdAsync(int salaId);
+        Task<SalaDto[]> GetAllSalasAsync();
+        Task<SalaDto> GetSalasByIdAsync(int salaId);
     }
 }

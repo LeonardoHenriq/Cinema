@@ -10,10 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace Cinema.API
 {
- public class Startup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -29,16 +30,19 @@ namespace Cinema.API
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
             services.AddControllers()
-                    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
+                        Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IFilmeService, FilmeService>();
             services.AddScoped<ISessaoService, SessaoService>();
-            services.AddScoped<ISalaService,SalaService>();
+            services.AddScoped<ISalaService, SalaService>();
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IFilmePersist, FilmePersist>();
             services.AddScoped<ISessaoPersist, SessaoPersist>();
-            services.AddScoped<ISalaPersist,SalaPersist>();
-
+            services.AddScoped<ISalaPersist, SalaPersist>();
 
             services.AddSwaggerGen(c =>
             {

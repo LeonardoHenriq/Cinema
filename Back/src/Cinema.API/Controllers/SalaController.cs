@@ -23,7 +23,7 @@ namespace Cinema.API.Controllers
             try
             {
                 var salas = await _salaService.GetAllSalasAsync();
-                if (salas == null) return NotFound("Nenhuma sala encontrada.");
+                if (salas == null) return NoContent();
 
                 return Ok(salas);
             }
@@ -39,7 +39,7 @@ namespace Cinema.API.Controllers
             try
             {
                 var sala = await _salaService.GetSalasByIdAsync(id);
-                if (sala == null) return NotFound("Nenhuma saka encontrada.");
+                if (sala == null) return NoContent();
 
                 return Ok(sala);
             }

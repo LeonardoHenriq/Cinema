@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using Cinema.API.Dtos;
+using Cinema.Application.Dtos;
 
 namespace Cinema.API.Controllers
 {
@@ -26,23 +26,9 @@ namespace Cinema.API.Controllers
             try
             {
                 var filmes = await _filmeService.GetAllFilmesAsync();
-                if (filmes == null) return NotFound("Nenhum filme encontrado.");
+                if (filmes == null) return NoContent();
 
-                var filmesRetorno = new List<FilmeDto>();
-
-                foreach (var filme in filmes)
-                {
-                    filmesRetorno.Add(new FilmeDto()
-                    {
-                        Id = filme.Id,
-                        ImagemURL = filme.ImagemURL,
-                        Titulo = filme.Titulo,
-                        Descricao = filme.Descricao,
-                        Duracao = filme.Duracao
-                    });
-                }
-
-                return Ok(filmesRetorno);
+                return Ok(filmes);
             }
             catch (Exception ex)
             {
@@ -56,7 +42,7 @@ namespace Cinema.API.Controllers
             try
             {
                 var filme = await _filmeService.GetFilmesByIdAsync(id);
-                if (filme == null) return NotFound("Nenhum filme encontrado.");
+                if (filme == null) return NoContent();
 
                 return Ok(filme);
             }
@@ -67,7 +53,7 @@ namespace Cinema.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Filme model)
+        public async Task<IActionResult> Post(FilmeDto model)
         {
             try
             {
@@ -83,7 +69,7 @@ namespace Cinema.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Filme model)
+        public async Task<IActionResult> Put(int id, FilmeDto model)
         {
             try
             {

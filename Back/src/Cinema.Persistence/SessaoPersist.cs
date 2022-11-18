@@ -16,16 +16,35 @@ namespace Cinema.Persistence
             _context = context;
 
         }
-        public async Task<Sessao[]> GetAllSessoesAsync()
+        public async Task<Sessao[]> GetAllSessoesAsync(bool includefilmeandsala = false)
         {
             IQueryable<Sessao> query = _context.Sessoes;
+            if (includefilmeandsala)
+            {
+                query = query
+                    .Include(s => s.filme);
+
+                query = query
+                    .Include(s => s.sala);
+            }
+
             query = query.AsNoTracking().OrderBy(s => s.Id);
 
             return await query.ToArrayAsync();
         }
-        public async Task<Sessao> GetSessoesByIdAsync(int sessaoId)
+        public async Task<Sessao> GetSessoesByIdAsync(int sessaoId,bool includefilmeandsala = false)
         {
             IQueryable<Sessao> query = _context.Sessoes;
+
+            if (includefilmeandsala)
+            {
+                query = query
+                    .Include(s => s.filme);
+
+                query = query
+                    .Include(s => s.sala);
+            }
+
             query = query.AsNoTracking().Where(s => s.Id == sessaoId);
 
             return await query.FirstOrDefaultAsync();
@@ -53,7 +72,7 @@ namespace Cinema.Persistence
 
             return await resultado.AnyAsync();
         }
-        public async Task<string> GetDuracaoFilme(int filmeId)
+        public async Task<TimeSpan> GetDuracaoFilme(int filmeId)
         {
             IQueryable<Filme> query = _context.Filmes;
             query = query.AsNoTracking().Where(f => f.Id == filmeId);
