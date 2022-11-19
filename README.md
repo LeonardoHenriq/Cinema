@@ -33,7 +33,7 @@ banco de dados utilizado foi Sqlite
 2. Via Visual studio : no solution explorer faça um build da Solution 'Cinema'
 
 #### Restaurar pacotes do projeto frontend
-1. abra o prompt de comandos navegue até a pasta \Front\Cinema-App , apos isso digite o comando ```ng update```
+1. abra o prompt de comandos navegue até a pasta \Front\Cinema-App , apos isso digite o comando ```npm install --force```
 
 ## Rodando os projetos
 
