@@ -16,7 +16,7 @@ banco de dados utilizado foi Sqlite
 ### Instalações Angular
 1. [Instalar o Node.js](https://nodejs.org/)
 2. Instalar o angular cli 
-      - abra o promp comandos e digite o comando ```npm install -g @angular/cli@latest```
+ - abra o promp comandos e digite o comando ```npm install -g @angular/cli@latest```
 
 ### Instalações .NET
 1. [Versão para Windows 64-bits](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-5.0.102-windows-x64-installer)
@@ -33,10 +33,13 @@ banco de dados utilizado foi Sqlite
 2. Via Visual studio : no solution explorer faça um build da Solution 'Cinema'
 
 #### Restaurar pacotes do projeto frontend
-1. abra o prompt de comandos navegue até a pasta , apos isso digite o comando ```ng update```
+1. abra o prompt de comandos navegue até a pasta \Front\Cinema-App , apos isso digite o comando ```ng update```
 
 ## Rodando os projetos
 
 ### Projeto backend
 1. Via CLI: abra o prompt comandos navegue até a pasta back/src/Cinaema.API, apos isso digite o comando ```dotnet watch run```
 2. Via Visual Studio : Set Cinema.API como projeto principal e depois aperte 'F5' ou o atalho quer você utiliza para startar o projeto 
+
+### Projeto frontend
+1. abra o prompt de comandos navegue até a pasta \Front\Cinema-App e digite o comando ```npm start```
