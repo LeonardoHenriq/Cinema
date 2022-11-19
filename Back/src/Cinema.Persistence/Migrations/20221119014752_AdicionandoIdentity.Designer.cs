@@ -3,14 +3,16 @@ using System;
 using Cinema.Persistence.Contextos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cinema.Persistence.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    partial class CinemaContextModelSnapshot : ModelSnapshot
+    [Migration("20221119014752_AdicionandoIdentity")]
+    partial class AdicionandoIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,7 @@ namespace Cinema.Persistence.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NomeCompleto")
+                    b.Property<string>("Nome")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -193,11 +195,11 @@ namespace Cinema.Persistence.Migrations
                     b.Property<int>("SalaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TipoAnimacao")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TipoAnimacao")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("TipoAudio")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TipoAudio")
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ValorIngresso")
                         .HasColumnType("TEXT");

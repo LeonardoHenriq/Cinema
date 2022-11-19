@@ -1,6 +1,7 @@
 using AutoMapper;
 using Cinema.Application.Dtos;
 using Cinema.Domain;
+using Cinema.Domain.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace Cinema.Application.Helpers
             CreateMap<Filme, FilmeDto>().ReverseMap();
             CreateMap<Sala, SalaDto>().ReverseMap();
             CreateMap<Sessao, SessaoDto>().ReverseMap();
+
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
+            CreateMap<User, UserUpdateDto>().ReverseMap();
+
         }
     }
 }

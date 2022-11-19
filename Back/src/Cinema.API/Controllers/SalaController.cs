@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinema.API.Controllers
 {
+    [Authorize(Roles = "Gerente")]
     [ApiController]
     [Route("api/[controller]")]
     public class SalaController : ControllerBase

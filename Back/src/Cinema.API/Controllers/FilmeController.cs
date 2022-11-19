@@ -1,17 +1,17 @@
-﻿using Cinema.Domain;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Cinema.Application.Contratos;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using Cinema.Application.Dtos;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinema.API.Controllers
 {
+    [Authorize(Roles ="Gerente")]
     [ApiController]
     [Route("api/[controller]")]
     public class FilmeController : ControllerBase

@@ -1,16 +1,14 @@
-﻿using Cinema.Application;
-using Cinema.Application.Contratos;
+﻿using Cinema.Application.Contratos;
 using Cinema.Application.Dtos;
-using Cinema.Domain;
-using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cinema.API.Controllers
 {
+    [Authorize(Roles ="Gerente")]
     [ApiController]
     [Route("api/[controller]")]
     public class SessaoController : ControllerBase
