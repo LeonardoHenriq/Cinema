@@ -50,6 +50,21 @@ namespace Cinema.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar sessões: {ex.Message}");
             }
         }
+        [HttpGet("/sala-available")]
+        public async Task<IActionResult> SalaAvailable(DateTime inicial,DateTime final)
+        {
+            try
+            {
+                var sessao = await _sessaoService.GetSalasDisponiveisAsync(inicial,final);
+                if (sessao == null) return NoContent();
+
+                return Ok(sessao);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar salas disponiveis: {ex.Message}");
+            }
+        }
 
         [HttpGet("duracao-filme/{id}")]
         public async Task<IActionResult> DuracaoFilme(int id)

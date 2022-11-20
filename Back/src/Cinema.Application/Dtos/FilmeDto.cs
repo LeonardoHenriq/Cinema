@@ -10,7 +10,6 @@ namespace Cinema.Application.Dtos
             ErrorMessage = "Não é uma imagem válida. (gif,jpg,jpeg,bmp ou png)")]
         public string ImagemURL { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

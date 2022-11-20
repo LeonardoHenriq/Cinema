@@ -10,13 +10,12 @@ namespace Cinema.Application.Dtos
         public int Id { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-        public string DataSessao { get; set; }
+        public DateTime DataSessao { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-        public string HorarioInicial { get; set; }
+        public DateTime HorarioInicial { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-        public string HorarioFinal { get; set; }
+        public DateTime HorarioFinal { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
         public decimal ValorIngresso { get; set; }

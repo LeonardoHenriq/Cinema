@@ -14,6 +14,7 @@ namespace Cinema.Application.Helpers
         public CinemaProfile()
         {
             CreateMap<Filme, FilmeDto>().ReverseMap();
+            CreateMap<Filme, FilmeUpdateDto>().ReverseMap();
             CreateMap<Sala, SalaDto>().ReverseMap();
             CreateMap<Sessao, SessaoDto>().ReverseMap();
 

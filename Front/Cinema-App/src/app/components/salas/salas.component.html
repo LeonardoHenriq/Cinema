@@ -1,12 +1,4 @@
-<h2>Salas</h2>
-<hr>
-
-<form action="" class="form-inline">
-  <div class="form-group mb-2">
-    <input type="text" class="form-control mr-2" placeholder="buscar">
-    <button class="btn btn-outline-success">Buscar</button>
-  </div>
-</form>
+<app-titulo [titulo]="'Salas'"></app-titulo>
 <table class="table table-striped table-hover">
   <thead class="thead-dark">
     <th>#</th>
@@ -20,4 +12,8 @@
       <td>{{sala.quantidadeAssentos}}</td>
     </tr>
   </tbody>
+  <tfoot *ngIf="!salas.length">
+    <tr>
+      <td colspan="8" class="text-center"><h4>Nenhuma sala encontrada</h4></td>
+    </tr>
 </table>

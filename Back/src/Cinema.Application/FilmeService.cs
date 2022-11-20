@@ -51,14 +51,10 @@ namespace Cinema.Application
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<FilmeDto> UpdateFilme(int filmeId, FilmeDto model)
+        public async Task<FilmeUpdateDto> UpdateFilme(int filmeId, FilmeUpdateDto model)
         {
             try
             {
-                var verifica = await _filmePersist.GetAllFilmesByTituloAsync(model.Titulo);
-                if (verifica != null && verifica.Any())
-                    throw new Exception("Já existe um filme com o mesmo titulo.");
-
                 var filme = await _filmePersist.GetFilmesByIdAsync(filmeId);
                 if (filme == null) return null;
 
@@ -72,7 +68,7 @@ namespace Cinema.Application
                 {
                     var filmeRetorno = await _filmePersist.GetFilmesByIdAsync(filme.Id);
 
-                    return _mapper.Map<FilmeDto>(filmeRetorno);
+                    return _mapper.Map<FilmeUpdateDto>(filmeRetorno);
                 }
 
                 return null;
@@ -145,6 +141,22 @@ namespace Cinema.Application
                 if (filme == null) return null;
 
                 var resultado = _mapper.Map<FilmeDto>(filme);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<FilmeUpdateDto> GetFilmesIdAsync(int filmeId)
+        {
+            try
+            {
+                var filme = await _filmePersist.GetFilmesByIdAsync(filmeId);
+                if (filme == null) return null;
+
+                var resultado = _mapper.Map<FilmeUpdateDto>(filme);
 
                 return resultado;
             }

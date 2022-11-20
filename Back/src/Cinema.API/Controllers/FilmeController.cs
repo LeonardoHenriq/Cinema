@@ -78,7 +78,8 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                var filme = await _filmeService.GetFilmesByIdAsync(filmeId);
+                var filme = await _filmeService.GetFilmesIdAsync(filmeId);
+                
                 if (filme == null) return NoContent();
 
                 var file = Request.Form.Files[0];
@@ -100,7 +101,7 @@ namespace Cinema.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, FilmeDto model)
+        public async Task<IActionResult> Put(int id, FilmeUpdateDto model)
         {
             try
             {
