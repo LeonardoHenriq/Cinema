@@ -1,0 +1,81 @@
+<app-titulo [titulo]="'Perfil'" [subtitulo]="'Gerenciamento de Perfil do Usuário'"></app-titulo>
+
+<div class="card rounded shadow-sm">
+  <form>
+    <div class="row p-3">
+      <div class="col-lg-3 pt-1">
+        <div class="card mb-3">
+          <div class="card-header"></div>
+          <div class="d-flex align-self-center">
+            <a>
+              <img
+              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+              name="aboutme" width="120" height="120" class="rounded-circle">
+            </a>
+          </div>
+          <div class="card-body">
+            <div class="h4 text-center mb-3">@UserName</div>
+            <div class="h7 text-bold pb-1"><b>Nome:</b> Miracles Lee Cross</div>
+            <div class="h7">
+              Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
+              etc.
+            </div>
+          </div>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="form-row">
+          <div class="form-group col-12">
+            <h3 class="border-bottom">Detalhe Perfil</h3>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>Nome Completo</label>
+            <input type="text" class="form-control"/>
+
+          </div>
+          <div class="form-group col-sm-6">
+            <label>E-mail</label>
+            <input type="text" class="form-control"/>
+
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-sm-3">
+            <label>Função</label>
+            <select class="form-control">
+              <option value=""></option>
+              <option value="NaoInformado">Não Informado</option>
+              <option value="Gerente">Gerente</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <h3 class="pt-3 border-bottom">Mudar Senha</h3>
+          <p>Caso mude de senha, preencha os campos abaixo:</p>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-sm">
+            <label>Senha</label>
+            <input type="password" class="form-control" />
+          </div>
+          <div class="form-group col-sm">
+            <label>Confirmar Senha</label>
+            <input type="password" class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex">
+        <button class="btn btn-outline-secondary mr-auto border">
+          Cancelar Alteração
+        </button>
+        <button class="btn btn-success">
+          <span class="spinner-border spinner-border-sm mr-1"></span>
+          Salvar Alteração
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

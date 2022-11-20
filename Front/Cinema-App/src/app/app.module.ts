@@ -28,7 +28,7 @@ import { SalasComponent } from './components/salas/salas.component';
 import { SessoesComponent } from './components/sessoes/sessoes.component';
 import { NavComponent } from './shared/nav/nav.component';
 import { TituloComponent } from './shared/titulo/titulo.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
@@ -38,6 +38,13 @@ import { SalaService } from './services/Sala.service';
 import { SessaoService } from './services/Sessao.service';
 import { AccountService } from './services/Account.service';
 import { TimeFormatPipe } from './helpers/TimeFormat.pipe';
+import { FilmeDetalheComponent } from './components/filmes/filme-detalhe/filme-detalhe.component';
+import { FilmeListaComponent } from './components/filmes/filme-lista/filme-lista.component';
+import { SessaoNovoComponent } from './components/sessoes/sessao-novo/sessao-novo.component';
+import { SessaoListaComponent } from './components/sessoes/sessao-lista/sessao-lista.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegistrationComponent } from './components/user/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +57,14 @@ import { TimeFormatPipe } from './helpers/TimeFormat.pipe';
     TimeFormatPipe,
     TituloComponent,
     DashboardComponent,
-    PerfilComponent
+    PerfilComponent,
+    FilmeDetalheComponent,
+    FilmeListaComponent,
+    SessaoNovoComponent,
+    SessaoListaComponent,
+    UserComponent,
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
