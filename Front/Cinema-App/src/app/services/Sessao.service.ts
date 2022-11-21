@@ -3,11 +3,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Sessao } from '../models/Sessao';
+import { environment } from '@environments/environment';
 
 @Injectable()
 export class SessaoService {
 
-  baseURL = 'https://localhost:5001/api/sessao';
+  baseURL = environment.apiURL+'api/sessao';
 
 constructor(private http: HttpClient) { }
 

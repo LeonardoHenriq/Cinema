@@ -31,7 +31,7 @@
     </thead>
     <tbody *ngIf="filmes && filmes.length">
       <tr *ngFor="let filme of filmesFiltrados">
-        <td><img [collapse]="exibirImagem" [isAnimated]="true" src="/assets/{{filme.imagemURL}}" [style.width.px]="widthImg" [style.margin.px]="marginImg"></td>
+        <td><img [collapse]="exibirImagem" [isAnimated]="true" [src]="retornaImagem(filme.imagemURL)" [style.width.px]="widthImg" [style.margin.px]="marginImg"></td>
         <td>{{filme.id}}</td>
         <td>{{filme.titulo}}</td>
         <td>{{filme.descricao}}</td>

@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -54,6 +55,12 @@ export class FilmeListaComponent implements OnInit {
 
   public alterarImagem(): void {
     this.exibirImagem = !this.exibirImagem;
+  }
+
+  public retornaImagem(imagemURL: string): string{
+
+    return(imagemURL !== '') ? `${environment.apiURL}resources/images/${imagemURL}`: '/assets/img/semImagem.png'
+
   }
 
   public getFilmes(): void{

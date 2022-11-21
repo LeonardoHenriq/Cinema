@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
 import { Observable, take } from 'rxjs';
 import { Sala } from '../models/Sala';
 
 @Injectable()
 export class SalaService {
 
-  baseURL = 'https://localhost:5001/api/sala';
+  baseURL = environment.apiURL+'api/sala';
 
 constructor(private http: HttpClient) { }
 

@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
 import { Observable, take } from 'rxjs';
 import { Filme } from '../models/Filme';
 
 @Injectable()
 export class FilmeService {
 
-baseURL = 'https://localhost:5001/api/filme';
-//baseURL = 'https://localhost:44334/api/filme';
+baseURL = environment.apiURL+'api/filme';
 
 constructor(private http: HttpClient) { }
 
@@ -29,6 +29,15 @@ public put(filme : Filme): Observable<Filme>{
 
 public deleteFilme(idFilme : number): Observable<any>{
   return this.http.delete(`${this.baseURL}/${idFilme}`).pipe(take(1));
+}
+
+public postUpload(filmeId: number, file: File): Observable<Filme>{
+
+  const fileToUpload = file[0] as File;
+  const formData = new FormData();
+  formData.append('file', fileToUpload);
+
+  return this.http.post<Filme>(`${this.baseURL}/upload-image/${filmeId}`, formData).pipe(take(1));
 }
 
 }

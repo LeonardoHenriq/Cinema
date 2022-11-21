@@ -122,9 +122,17 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                var result = await _filmeService.DeleteFilme(id);
 
-                return Ok(new {message = result});
+                var filme = await _filmeService.GetFilmesByIdAsync(id);
+                if(filme == null) return NoContent();
+
+                var result = await _filmeService.DeleteFilme(filme.Id);
+                if(result == "Excluido"){
+
+                    DeleteImage(filme.ImagemURL);
+                    return Ok(new {message = result});
+                }else
+                throw new Exception("ocorreu uma fala interna");
             }
             catch (Exception ex)
             {
@@ -151,7 +159,7 @@ namespace Cinema.API.Controllers
         [NonAction]
         public void DeleteImage(string imageName)
         {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources\Images", imageName);
             if (System.IO.File.Exists(imagePath))
                 System.IO.File.Delete(imagePath);
         }
