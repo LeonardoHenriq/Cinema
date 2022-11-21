@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -11,7 +11,7 @@ import { FilmeService } from 'src/app/services/Filme.service';
   templateUrl: './filme-lista.component.html',
   styleUrls: ['./filme-lista.component.scss']
 })
-export class FilmeListaComponent {
+export class FilmeListaComponent implements OnInit {
 
   modalRef?: BsModalRef;
   public filmes: Filme[] = [];

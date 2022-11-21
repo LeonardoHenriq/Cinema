@@ -1,5 +1,5 @@
 import { SalaService } from '../../services/Sala.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Sala } from '../../models/Sala';
@@ -9,7 +9,7 @@ import { Sala } from '../../models/Sala';
   templateUrl: './salas.component.html',
   styleUrls: ['./salas.component.scss']
 })
-export class SalasComponent {
+export class SalasComponent implements OnInit  {
   public salas: Sala[] =[];
 
   constructor(private salaService: SalaService,

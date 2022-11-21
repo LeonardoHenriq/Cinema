@@ -1,45 +1,51 @@
-<!--
-  "id": 0,
-  "imagemURL": "string",
-  "titulo": "string",
-  "descricao": "string",
-  "duracao": "string"
--->
-
 <div class="card rounded shadow-sm">
-  <form>
+  <form [formGroup]="form">
+    <p>Form value: {{form.value | json}}</p>
+    <p>Form value: {{form.status | json}}</p>
     <div class="p-3">
       <div class="form-row">
         <div class="form-group col-md-12">
           <label>Titulo</label>
-          <input type="text" class="form-control" placeholder="Insira o Tema">
+          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.titulo?.errors && f.titulo?.touched}" formControlName="titulo" placeholder="Insira o Titulo">
+          <div class="invalid-feedback">
+            titulo é obrigatório
+          </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-8">
           <label>Descrição</label>
-          <input type="text" class="form-control" placeholder="">
+          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.descricao?.errors && f.descricao?.touched}" formControlName="descricao" placeholder="Insira uma breve descrição">
+          <div class="invalid-feedback">
+            descrição é obrigatório
+          </div>
         </div>
         <div class="form-group col-md-4">
           <label>Duração</label>
-          <input type="time" class="form-control" placeholder="">
+          <input type="time" class="form-control" [ngClass]="{'is-invalid': f.duracao?.errors && f.duracao?.touched}" formControlName="duracao" placeholder="">
+          <div class="invalid-feedback">
+            duração é obrigatório
+          </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-4">
           <label>Imagem</label>
-          <input type="text" class="form-control is-invalid" placeholder="">
+          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.imagemURL?.errors && f.imagemURL?.touched}" formControlName="imagemURL" placeholder="">
+          <div class="invalid-feedback">
+            imagem é obrigatório
+          </div>
         </div>
       </div>
     </div>
     <div class="card-footer">
       <div class="d-flex">
-        <button class="btn btn-outline-secondary mr-auto border">
+        <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
           Cancelar Alteração
         </button>
-        <button class="btn btn-success">
+        <button class="btn btn-success" [disabled]="!form.valid">
           <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
-          Salvar Evento
+          Salvar Filme
         </button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './titulo.component.html',
   styleUrls: ['./titulo.component.scss']
 })
-export class TituloComponent {
+export class TituloComponent implements OnInit  {
 
   @Input() titulo!: string;
   @Input() iconClass = 'fa fa-user';

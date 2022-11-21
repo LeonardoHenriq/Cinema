@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +10,7 @@ import { SessaoService } from 'src/app/services/Sessao.service';
   templateUrl: './sessao-lista.component.html',
   styleUrls: ['./sessao-lista.component.scss']
 })
-export class SessaoListaComponent {
+export class SessaoListaComponent implements OnInit  {
   modalRef?: BsModalRef;
   public sessoes: Sessao[] = [];
 /*
