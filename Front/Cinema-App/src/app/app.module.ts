@@ -13,10 +13,12 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+
 
 
 
@@ -87,7 +89,8 @@ defineLocale('pt-br', ptBrLocale)
       preventDuplicates: true,
       progressBar: true,
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxCurrencyModule
   ],
   providers: [
     FilmeService,

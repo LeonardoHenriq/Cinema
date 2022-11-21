@@ -1,81 +1,58 @@
-<!--
-  {
-  "id": 0,
-  "dataSessao": "2022-11-20T22:55:13.121Z",
-  "horarioInicial": "2022-11-20T22:55:13.121Z",
-  "horarioFinal": "2022-11-20T22:55:13.121Z",
-  "valorIngresso": 0,
-  "tipoAnimacao": "DoisD",
-  "tipoAudio": "Original",
-  "filmeId": 0,
-  "filme": {
-    "id": 0,
-    "imagemURL": "string",
-    "titulo": "string",
-    "descricao": "string",
-    "duracao": "string"
-  },
-  "salaId": 0,
-  "sala": {
-    "id": 0,
-    "nome": "string",
-    "quantidadeAssentos": 0
-  }
-}
--->
 
 <div class="card rounded shadow-sm">
-  <form>
+  <form [formGroup]="form">
     <div class="p-3">
       <div class="form-row">
         <div class="form-group col-md-2">
           <label>Valor do Ingresso</label>
-          <input type="number" class="form-control" placeholder="">
+          <input class="form-control" currencyMask
+          [options]="{prefix: 'R$ ',thousands:'.',decimal:',',align:'left'}"
+          [ngClass]="cssValidator(f.valorIngresso)" formControlName="valorIngresso">
         </div>
         <div class="form-group col-md-2">
           <label>Tipo Animação</label>
-          <select class="form-control">
-            <option value=""></option>
+          <select class="form-control" formControlName="tipoAnimacao" [ngClass]="cssValidator(f.tipoAnimacao)">
             <option value="DoisD">2D</option>
             <option value="TresD">3D</option>
           </select>
         </div>
         <div class="form-group col-md-2">
           <label>Tipo Audio</label>
-          <select class="form-control">
-            <option value=""></option>
+          <select class="form-control" formControlName="tipoAudio" [ngClass]="cssValidator(f.tipoAudio)">
             <option value="Original">Original</option>
             <option value="Dublado">Dublado</option>
-          </select>
-        </div>
-        <div class="form-group col-md-4">
-          <label>Filme</label>
-          <select class="form-control">
-            <option *ngFor="let filme of filmes" value= {{filme.id}}>
-              {{filme.titulo}}</option>
           </select>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-3">
+          <label>Filme</label>
+          <select class="form-control">
+            <option *ngFor="let filme of filmes" formControlName="filmeId" [ngClass]="cssValidator(f.filmeId)" value={{filme.id}}>
+              {{filme.titulo}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
           <label>Data Sessão</label>
-          <input bsDatepicker [bsConfig]="bsConfig" class="form-control" >
+          <input bsDatepicker [bsConfig]="bsConfig" formControlName="dataSessao" placeholder="01/01/2022" [ngClass]="cssValidator(f.dataSessao)" class="form-control" >
         </div>
         <div class="form-group col-md-3">
           <label>Horario Inicial</label>
-          <input type="time" class="form-control">
+          <input type="time" class="form-control" formControlName="horarioInicial" [ngClass]="cssValidator(f.horarioInicial)">
         </div>
-        <div class="form-group col-md-3">
+         <div class="form-group col-md-3">
           <label>Horario Final</label>
           <input type="time" class="form-control" disabled >
         </div>
       </div>
       <div class="form-row">
-
         <div class="form-group col-md-4">
           <label>Sala</label>
-          <select class="form-control" disabled>
-            <option value=""></option>
+          <select class="form-control" [disabled]="!form.valid" [ngClass]="cssValidator(f.salaId)">
+            <option *ngFor="let sala of salas" formControlName="salaId" value={{sala.id}}>
+              {{sala.nome}}
+            </option>
           </select>
         </div>
       </div>
@@ -85,11 +62,14 @@
         <button class="btn btn-outline-secondary mr-auto border">
           Cancelar Alteração
         </button>
-        <button class="btn btn-success">
+        <button class="btn btn-success" [disabled]="!form.valid">
           Salvar Sessão
         </button>
       </div>
     </div>
   </form>
 </div>
+<p>
+
+</p>
 

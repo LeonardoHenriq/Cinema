@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { FilmeService } from './../../../services/Filme.service';
 import { Filme } from 'src/app/models/Filme';
@@ -20,17 +20,18 @@ export class FilmeDetalheComponent implements OnInit {
   public estadoSalvar = 'post';
 
   constructor(private fb: FormBuilder,
-              private router: ActivatedRoute,
+              private activatedrouter: ActivatedRoute,
               private filmeService: FilmeService,
               private spinner : NgxSpinnerService,
-              private toastr: ToastrService) {}
+              private toastr: ToastrService,
+              private router: Router) {}
 
   get f(): any{
     return this.form.controls;
   }
 
   public carregarFilme(): void{
-     const filmeIdParam = this.router.snapshot.paramMap.get('id');
+     const filmeIdParam = this.activatedrouter.snapshot.paramMap.get('id');
 
 
      if(filmeIdParam !== null){
@@ -88,8 +89,9 @@ export class FilmeDetalheComponent implements OnInit {
         this.filme = {id: this.filme.id,... this.form.value};
 
       this.filmeService[this.estadoSalvar](this.filme).subscribe({
-        next:()=>{
-          this.toastr.success('Filme salvo com sucesso','Sucesso!')
+        next:(filmeRetorno : Filme)=>{
+          this.toastr.success('Filme salvo com sucesso','Sucesso!');
+          this.router.navigate([`filme/detalhe/${filmeRetorno.id}`]);
         },
         error:(error: any)=>{
           console.log(error);

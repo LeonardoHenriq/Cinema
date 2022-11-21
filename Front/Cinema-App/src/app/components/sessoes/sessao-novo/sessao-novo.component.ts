@@ -1,3 +1,4 @@
+import { Sala } from './../../../models/Sala';
 import { SessaoService } from './../../../services/Sessao.service';
 import { FilmeService } from 'src/app/services/Filme.service';
 import { Component, OnInit } from '@angular/core';
@@ -5,6 +6,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Filme } from 'src/app/models/Filme';
+import { FormBuilder, FormControl, FormControlName, FormGroup, FormGroupName, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,6 +17,10 @@ import { Filme } from 'src/app/models/Filme';
 export class SessaoNovoComponent implements OnInit  {
 
   public filmes: Filme[] = [];
+  public salas: Sala[] = [];
+  public form: FormGroup;
+
+  public horarios: FormGroupName;
 
   get bsConfig(): any{
     return {
@@ -26,7 +32,8 @@ export class SessaoNovoComponent implements OnInit  {
   }
 
 
-  constructor(private localService:BsLocaleService,
+  constructor(private fb: FormBuilder,
+              private localService:BsLocaleService,
               private filmeService : FilmeService,
               private spinner : NgxSpinnerService,
               private toastr: ToastrService,
@@ -34,9 +41,26 @@ export class SessaoNovoComponent implements OnInit  {
     this.localService.use('pt-br')
   }
 
+  get f(): any{
+    return this.form.controls;
+  }
+
 
   ngOnInit(): void {
     this.getFilmes();
+    this.validation();
+  }
+
+  public validation(): void {
+    this.form = this.fb.group({
+      dataSessao :  ['', Validators.required],
+      horarioInicial : ['', Validators.required],
+      filmeId : ['', Validators.required],
+      valorIngresso : ['', Validators.required],
+      tipoAnimacao :  ['', Validators.required],
+      tipoAudio :  ['', Validators.required],
+      salaId : ['', Validators.required],
+    })
   }
 
   public getFilmes(): void{
@@ -44,12 +68,18 @@ export class SessaoNovoComponent implements OnInit  {
     this.filmeService.getFilmes().subscribe(
       (_filmes: Filme[]) => {
         this.filmes = _filmes
+        console.log(this.filmes)
       },
       (error : any) => {
         console.log(error);
         this.toastr.error('Erro ao Carregar os Filmes','Erro!');
       }
     ).add(()=> this.spinner.hide());
+  }
+
+  public cssValidator(campoForm: FormControl): any {
+    console.log(campoForm);
+    return {'is-invalid': campoForm?.errors && campoForm?.touched};
   }
 
 }
