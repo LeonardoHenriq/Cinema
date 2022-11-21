@@ -56,19 +56,19 @@ namespace Cinema.Application
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<bool> DeleteSessao(int sessaoId)
+        public async Task<string> DeleteSessao(int sessaoId)
         {
             try
             {
                 var sessao = await _sessaoPersist.GetSessoesByIdAsync(sessaoId);
-                if (sessao == null) throw new Exception("Sess�o para exclus�o n�o encontrada.");
+                if (sessao == null) return "Sessao para exclusao nao encontrada.";
 
                 var test = sessao.DataSessao - DateTime.Today;
 
-                if (test.TotalDays < 10) throw new Exception("Erro, sessao so pode ser excluida se faltar 10 ou mais para ocorrer.");
+                if (test.TotalDays < 10) return "Erro, sessao so pode ser excluida se faltar 10 ou mais para ocorrer.";
 
                 _geralPersist.Delete<Sessao>(sessao);
-                return await _geralPersist.SaveChangesAsync();
+                return await _geralPersist.SaveChangesAsync() ? "Excluido" : throw new Exception("Erro ao tentar Excluir"); 
             }
             catch (Exception ex)
             {

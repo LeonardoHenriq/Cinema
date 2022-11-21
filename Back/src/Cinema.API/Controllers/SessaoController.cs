@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace Cinema.API.Controllers
@@ -74,7 +75,7 @@ namespace Cinema.API.Controllers
                 var duracao = await _sessaoService.GetDuracaoFilme(id);
                 if (TimeSpan.Parse(duracao) == new TimeSpan()) return NoContent();
 
-                return Ok(duracao);
+                return Ok(new {duracao = duracao});
             }
             catch (Exception ex)
             {
@@ -102,8 +103,9 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                if (await _sessaoService.DeleteSessao(id)) return Ok("Excluido");
-                else return BadRequest("sessão não foi excluida");
+                var result = await _sessaoService.DeleteSessao(id);
+
+                return Ok(new { message = result });
             }
             catch (Exception ex)
             {

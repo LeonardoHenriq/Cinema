@@ -10,7 +10,7 @@ namespace Cinema.Application.Contratos
     public interface ISessaoService
     {
         Task<SessaoDto> AddSessao(SessaoDto model);
-        Task<bool> DeleteSessao(int sessaoId);
+        Task<string> DeleteSessao(int sessaoId);
         Task<SessaoDto[]> GetAllSessoesAsync(bool includefilmeandsala = false);
         Task<SessaoDto> GetSessoesByIdAsync(int sessaoId, bool includefilmeandsala = false);
         Task<SalaDto[]> GetSalasDisponiveisAsync(DateTime inicial, DateTime final);
