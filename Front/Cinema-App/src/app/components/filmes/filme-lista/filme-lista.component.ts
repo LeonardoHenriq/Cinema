@@ -17,6 +17,7 @@ export class FilmeListaComponent implements OnInit {
   public filmes: Filme[] = [];
   public filmesFiltrados : Filme[] = [];
   public filmeTitulo!: string;
+  public filmeId!:number;
 
   public widthImg: number = 50;
   public marginImg: number = 2;
@@ -57,28 +58,42 @@ export class FilmeListaComponent implements OnInit {
 
   public getFilmes(): void{
 
-    this.filmeService.getFilmes().subscribe({
-      next : (_filmes: Filme[]) => {
+    this.filmeService.getFilmes().subscribe(
+      (_filmes: Filme[]) => {
         this.filmes = _filmes,
         this.filmesFiltrados = this.filmes;
       },
-      error : (error : any) => {
+      (error : any) => {
         console.log(error);
         this.spinner.hide();
         this.toastr.error('Erro ao Carregar os Filmes','Erro!');
-      },
-      complete: () => this.spinner.hide()
-    });
+      }
+    ).add(() => this.spinner.hide());
   }
 
-  openModal(template: TemplateRef<any>, filmeTitulo: string): void {
+  openModal(template: TemplateRef<any>, filmeTitulo: string, filmeId: number): void {
     this.filmeTitulo = filmeTitulo;
+    this.filmeId = filmeId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('O Filme foi excluido com sucesso!','Excluido!');
+
+    this.filmeService.deleteFilme(this.filmeId).subscribe(
+       (result : any) => {
+
+        result.message ==='Excluido' ?
+          this.toastr.success(result.message,'Excluido!'):
+          this.toastr.error(result.message,'Erro');
+
+          this.getFilmes();
+      },
+     (error: any) => {
+        console.log(error);
+        this.toastr.error('Erro ao tentar excluir o filme', 'Erro');
+      }
+  ).add(()=> this.spinner.hide());
   }
 
   decline(): void {

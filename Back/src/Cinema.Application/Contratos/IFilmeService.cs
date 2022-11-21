@@ -7,7 +7,7 @@ namespace Cinema.Application.Contratos
     {
         Task<FilmeDto> AddFilme(FilmeDto model);
         Task<FilmeUpdateDto> UpdateFilme(int filmeId, FilmeUpdateDto model);
-        Task<bool> DeleteFilme(int filmeId);
+        Task<string> DeleteFilme(int filmeId);
         Task<FilmeDto[]> GetAllFilmesAsync();
         Task<FilmeDto[]> GetAllFilmesByTituloAsync(string titulo);
         Task<FilmeDto> GetFilmesByIdAsync(int filmeId);

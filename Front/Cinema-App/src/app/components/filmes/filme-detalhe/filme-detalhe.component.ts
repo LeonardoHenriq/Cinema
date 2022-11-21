@@ -17,6 +17,8 @@ export class FilmeDetalheComponent implements OnInit {
 
   public filme = {} as Filme;
   public form!: FormGroup;
+  public estadoSalvar = 'post';
+
   constructor(private fb: FormBuilder,
               private router: ActivatedRoute,
               private filmeService: FilmeService,
@@ -30,7 +32,9 @@ export class FilmeDetalheComponent implements OnInit {
   public carregarFilme(): void{
      const filmeIdParam = this.router.snapshot.paramMap.get('id');
 
+
      if(filmeIdParam !== null){
+      this.estadoSalvar = 'put';
       this.spinner.show();
        this.form.get('titulo')?.disable();
        this.filmeService.getFilmeById(+filmeIdParam).subscribe({
@@ -74,5 +78,26 @@ export class FilmeDetalheComponent implements OnInit {
 
   public cssValidator(campoForm: FormControl): any {
     return {'is-invalid': campoForm?.errors && campoForm?.touched};
+  }
+
+  public salvarAlteracao(): void{
+    this.spinner.show();
+    if(this.form.valid){
+
+      this.filme = this.estadoSalvar === 'post' ? {... this.form.value} :
+        this.filme = {id: this.filme.id,... this.form.value};
+
+      this.filmeService[this.estadoSalvar](this.filme).subscribe({
+        next:()=>{
+          this.toastr.success('Filme salvo com sucesso','Sucesso!')
+        },
+        error:(error: any)=>{
+          console.log(error);
+          this.spinner.hide();
+          this.toastr.error('Erro ao tentar salvar o filme','Erro');
+        },
+        complete:()=> this.spinner.hide()
+      });
+    }
   }
 }

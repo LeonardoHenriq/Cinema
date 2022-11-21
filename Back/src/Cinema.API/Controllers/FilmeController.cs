@@ -8,6 +8,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace Cinema.API.Controllers
 {
@@ -121,8 +122,9 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                if (await _filmeService.DeleteFilme(id)) return Ok("Excluido");
-                else return BadRequest("Filme não foi excluido");
+                var result = await _filmeService.DeleteFilme(id);
+
+                return Ok(new {message = result});
             }
             catch (Exception ex)
             {

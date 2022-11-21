@@ -51,7 +51,8 @@
         <div class="form-group col-md-4">
           <label>Filme</label>
           <select class="form-control">
-            <option value=""></option>
+            <option *ngFor="let filme of filmes" value= {{filme.id}}>
+              {{filme.titulo}}</option>
           </select>
         </div>
       </div>

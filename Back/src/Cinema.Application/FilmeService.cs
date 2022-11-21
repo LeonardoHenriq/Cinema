@@ -79,19 +79,20 @@ namespace Cinema.Application
             }
         }
 
-        public async Task<bool> DeleteFilme(int filmeId)
+        public async Task<string> DeleteFilme(int filmeId)
         {
             try
             {
                 if (await _sessaoPersist.GetSessoesByFilmeAsync(filmeId))
-                    throw new Exception("Erro ao excluir, filme possuí uma Sessão.");
+                    return "Erro ao excluir, filme possuí uma Sessão.";
 
                 var filme = await _filmePersist.GetFilmesByIdAsync(filmeId);
-                if (filme == null) throw new Exception("Filme para delete não encontrado.");
+                if (filme == null) return "Filme não encontrado para exclusão.";
 
 
                 _geralPersist.Delete<Filme>(filme);
-                return await _geralPersist.SaveChangesAsync();
+
+                return await _geralPersist.SaveChangesAsync() ? "Excluido" : throw new Exception("Erro ao tentar Excluir");
             }
             catch (Exception ex)
             {
