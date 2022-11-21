@@ -16,6 +16,7 @@ export class FilmeListaComponent implements OnInit {
   modalRef?: BsModalRef;
   public filmes: Filme[] = [];
   public filmesFiltrados : Filme[] = [];
+  public filmeTitulo!: string;
 
   public widthImg: number = 50;
   public marginImg: number = 2;
@@ -70,7 +71,8 @@ export class FilmeListaComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>): void {
+  openModal(template: TemplateRef<any>, filmeTitulo: string): void {
+    this.filmeTitulo = filmeTitulo;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 

@@ -33,4 +33,9 @@ export class PerfilComponent implements OnInit {
       passwordConfirm : ['',Validators.required],
     }, formOptions);
   }
+
+  public resetForm(event : any) : void{
+    event.preventDefault();
+    this.form.reset();
+  }
 }

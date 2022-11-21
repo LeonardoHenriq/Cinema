@@ -40,7 +40,7 @@
           <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="detalheFilme(filme.id)" tooltip="Editar">
             <i class="fa fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir" (click)="openModal(template)">
+          <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir" (click)="openModal(template,filme.titulo)">
             <i class="fa fa-trash"></i>
           </button>
         </td>
@@ -57,7 +57,7 @@
 
 <ng-template #template>
   <div class="modal-body text-center">
-    <p>Tem certeza que quer excluir um filme?</p>
+    <p>Tem certeza que deseja excluir o filme {{filmeTitulo}}?</p>
     <button type="button" class="btn btn-default" (click)="confirm()" >Sim</button>
     <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
   </div>

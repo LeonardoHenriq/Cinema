@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-sessao-novo',
@@ -7,8 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SessaoNovoComponent implements OnInit  {
 
-  constructor() {
+  get bsConfig(): any{
+    return {
+      adaptivePosition: true,
+      dateInputFormat: 'DD/MM/YYYY',
+      containerClass: 'theme-default',
+      showWeekNumbers: false
+    }
   }
+
+  constructor(private localService:BsLocaleService) {
+    this.localService.use('pt-br')
+  }
+
 
   ngOnInit(): void {
   }

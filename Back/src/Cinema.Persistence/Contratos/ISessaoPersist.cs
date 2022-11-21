@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cinema.Domain;
 
@@ -9,8 +10,9 @@ namespace Cinema.Persistence.Contratos
         Task<Sessao[]> GetAllSessoesAsync(bool includefilmeandsala = false);
         Task<Sessao> GetSessoesByIdAsync(int sessaoId, bool includefilmeandsala = false);
         Task<bool> GetSessoesByFilmeAsync(int filmeId);
-        Task<Sala[]> GetSalasDisponiveisAsync(DateTime inicial, DateTime final);
-        Task<bool> SalaAvailable(int salaId, DateTime inicial, DateTime final);
-        Task<TimeSpan> GetDuracaoFilme(int filmeId);
+        Task<List<Sala>> SalasAvailableAsync();
+        Task<List<Sala>> SalaIsUsedAsync(DateTime inicial, DateTime final);
+        Task<bool> SalaAvailableAsync(int salaId, DateTime inicial, DateTime final);
+        Task<TimeSpan> GetDuracaoFilmeAsync(int filmeId);
     }
 }

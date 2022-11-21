@@ -18,7 +18,7 @@ namespace Cinema.Application
         private readonly IGeralPersist _geralPersist;
         private readonly IMapper _mapper;
 
-        public SessaoService(ISessaoPersist sessaoPersist, IGeralPersist geralPersist,IMapper mapper)
+        public SessaoService(ISessaoPersist sessaoPersist, IGeralPersist geralPersist, IMapper mapper)
         {
             _sessaoPersist = sessaoPersist;
             _geralPersist = geralPersist;
@@ -29,15 +29,15 @@ namespace Cinema.Application
             try
             {
                 var sessao = _mapper.Map<Sessao>(model);
-                var duracao = await _sessaoPersist.GetDuracaoFilme(sessao.FilmeId);
+                var duracao = await _sessaoPersist.GetDuracaoFilmeAsync(sessao.FilmeId);
 
-                if(duracao == new TimeSpan())
+                if (duracao == new TimeSpan())
                     throw new Exception($"Não foi possível encontrar a duração do filme");
 
 
                 sessao.HorarioFinal = sessao.HorarioInicial.AddTicks(duracao.Ticks);
 
-                if (await _sessaoPersist.SalaAvailable(sessao.SalaId, sessao.HorarioInicial, sessao.HorarioFinal))
+                if (await _sessaoPersist.SalaAvailableAsync(sessao.SalaId, sessao.HorarioInicial, sessao.HorarioFinal))
                     throw new Exception($"Já existe um cadastro com os mesmos horarios para a sala informada");
 
                 _geralPersist.Add<Sessao>(sessao);
@@ -65,7 +65,7 @@ namespace Cinema.Application
 
                 var test = sessao.DataSessao - DateTime.Today;
 
-                if (test.TotalDays < 10) throw new Exception("Erro, sess�o s� pode ser excluida se faltar 10 ou mais para ocorrer.");
+                if (test.TotalDays < 10) throw new Exception("Erro, sessao so pode ser excluida se faltar 10 ou mais para ocorrer.");
 
                 _geralPersist.Delete<Sessao>(sessao);
                 return await _geralPersist.SaveChangesAsync();
@@ -95,7 +95,7 @@ namespace Cinema.Application
         {
             try
             {
-                var sessao = await _sessaoPersist.GetSessoesByIdAsync(sessaoId,includefilmeandsala);
+                var sessao = await _sessaoPersist.GetSessoesByIdAsync(sessaoId, includefilmeandsala);
                 if (sessao == null) return null;
 
                 var resultado = _mapper.Map<SessaoDto>(sessao);
@@ -111,8 +111,15 @@ namespace Cinema.Application
         {
             try
             {
-                var salas = await _sessaoPersist.GetSalasDisponiveisAsync(inicial, final);
-                if (salas == null && salas.Any()) throw new Exception("N�o existem salas dispon�veis para este hor�rio");
+                var usadas = await _sessaoPersist.SalaIsUsedAsync(inicial, final);
+                var todas = await _sessaoPersist.SalasAvailableAsync();
+
+                var salasUsadas = _mapper.Map<List<SalaDto>>(usadas);
+                var salas = _mapper.Map<List<SalaDto>>(todas);
+
+                if (salas == null && salas.Any()) throw new Exception("Nao existem salas disponiveis para este horario");
+
+                salasUsadas.ForEach(s => salas.RemoveAll(sa => sa.Id == s.Id));
 
                 var resultado = _mapper.Map<SalaDto[]>(salas);
 
@@ -127,8 +134,8 @@ namespace Cinema.Application
         {
             try
             {
-                var duracao = await _sessaoPersist.GetDuracaoFilme(filmeId);
-                if (duracao == new TimeSpan()) throw new Exception("N�o foi poss�vel recuperar a dura��o do filme");
+                var duracao = await _sessaoPersist.GetDuracaoFilmeAsync(filmeId);
+                if (duracao == new TimeSpan()) throw new Exception("Nao foi possivel recuperar a duracao do filme");
 
                 return duracao.ToString();
             }

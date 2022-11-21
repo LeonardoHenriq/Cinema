@@ -40,7 +40,7 @@ namespace Cinema.API.Controllers
         {
             try
             {
-                var sessao = await _sessaoService.GetSessoesByIdAsync(id,true);
+                var sessao = await _sessaoService.GetSessoesByIdAsync(id, true);
                 if (sessao == null) return NoContent();
 
                 return Ok(sessao);
@@ -50,12 +50,12 @@ namespace Cinema.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar sessões: {ex.Message}");
             }
         }
-        [HttpGet("/sala-available")]
-        public async Task<IActionResult> SalaAvailable(DateTime inicial,DateTime final)
+        [HttpGet("/salas-available")]
+        public async Task<IActionResult> SalasAvailable(DateTime inicial, DateTime final)
         {
             try
             {
-                var sessao = await _sessaoService.GetSalasDisponiveisAsync(inicial,final);
+                var sessao = await _sessaoService.GetSalasDisponiveisAsync(inicial, final);
                 if (sessao == null) return NoContent();
 
                 return Ok(sessao);

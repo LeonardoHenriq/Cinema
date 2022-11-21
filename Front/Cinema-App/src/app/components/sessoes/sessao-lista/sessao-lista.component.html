@@ -1,19 +1,11 @@
 <div class="card rounded shadow-sm p-3">
-  <!--
-    <div class="form-inline">
-      <div class="form-group mb-2">
-        <label class="mr-2">Filtro:</label>
-        <input type="text" class="form-control mr-2" [(ngModel)]="filtroLista" placeholder="buscar">
-      </div>
-    </div>
-  -->
   <div class="d-flex">
     <div class="flex-fill pr-3">
       <div class="input-group mb-2">
         <div class="input-group-prepend">
-          <label class="input-group-text">Filtro:</label>
+          <label class="input-group-text" >Filtro:</label>
         </div>
-        <input type="text" class="form-control"
+        <input type="text" class="form-control" [(ngModel)]="filtroLista"
         placeholder="buscar">
       </div>
     </div>
@@ -40,7 +32,7 @@
         <th>Operações</th>
       </thead>
       <tbody *ngIf="sessoes && sessoes.length">
-        <tr *ngFor="let sessao of sessoes">
+        <tr *ngFor="let sessao of sessoesFiltrados">
           <td>{{sessao.id}}</td>
           <td>{{sessao.filme.titulo}}</td>
           <td>{{sessao.filme.duracao}}</td>

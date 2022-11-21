@@ -1,7 +1,9 @@
+import { Sala } from './../../../models/Sala';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { Filme } from 'src/app/models/Filme';
 import { Sessao } from 'src/app/models/Sessao';
 import { SessaoService } from 'src/app/services/Sessao.service';
 
@@ -13,7 +15,7 @@ import { SessaoService } from 'src/app/services/Sessao.service';
 export class SessaoListaComponent implements OnInit  {
   modalRef?: BsModalRef;
   public sessoes: Sessao[] = [];
-/*
+
   public sessoesFiltrados : Sessao[] = [];
 
   private _filtroLista: string = ''
@@ -30,11 +32,13 @@ export class SessaoListaComponent implements OnInit  {
   public filtrarSessoes(filtrarPor : string): Sessao[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.sessoes.filter(
-      (sessao : { filme.titulo : string; sala.descricao : string;} ) => sessao.filme.titulo.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
+      (sessao : {filme : Filme; sala: Sala} ) =>
+      sessao.filme.titulo.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
+      sessao.filme.descricao.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
       sessao.sala.nome.toLocaleLowerCase().indexOf(filtrarPor) !== -1
     )
   }
-*/
+
   constructor(private sessaoService: SessaoService,
     private modalService: BsModalService,
     private toastr: ToastrService,
@@ -50,6 +54,7 @@ export class SessaoListaComponent implements OnInit  {
     this.sessaoService.getSessoes().subscribe({
       next : (_sessoes: Sessao[]) => {
         this.sessoes = _sessoes
+        this.sessoesFiltrados = this.sessoes;
       },
       error : (error : any) => {
         console.log(error);
