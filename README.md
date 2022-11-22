@@ -37,6 +37,16 @@ banco de dados utilizado foi Sqlite
 
 ## Rodando os projetos
 
+## Ressalvas
+Antes de rodar o projeto frontend, verifique o arquivo environments.ts existem existe uma urlAPI para rodar via CLI e outra que é do Visual studio,
+comente a que não for usar ou adicione alguma para fazer uso dos endpoints do projeto de backend .
+
+caminho : front/cinema-app/src/environments/environments.ts
+
+
+![image](https://user-images.githubusercontent.com/44528586/203283281-b912f778-07d8-4631-8e83-a090d899650f.png)
+
+
 ### Projeto backend
 1. Via CLI: abra o prompt comandos navegue até a pasta back/src/Cinaema.API, apos isso digite o comando ```dotnet watch run```
 2. Via Visual Studio : Set Cinema.API como projeto principal e depois aperte 'F5' ou o atalho quer você utiliza para startar o projeto 
