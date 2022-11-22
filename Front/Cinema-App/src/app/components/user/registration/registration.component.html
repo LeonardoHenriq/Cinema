@@ -9,7 +9,7 @@
 
 	<div class="col-md-6">
 
-		<form [formGroup]="form" class="p-1">
+		<form [formGroup]="form" class="p-1" (ngSubmit)="register()">
       <div class="pb-2 d-block d-md-none">
         <h3 class="border-bottom">Cadastro de Usuário</h3>
       </div>
@@ -40,7 +40,7 @@
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label for="inputfuncao">Função</label>
-          <select class="form-control" id="inputfuncao">
+          <select class="form-control" formControlName="funcao" id="inputfuncao">
             <option selected value="NaoInformado">Selecione uma Função</option>
             <option value="NaoInformado">Não Informado</option>
             <option value="Gerente">Gerente</option>
@@ -68,7 +68,8 @@
       </div>
       <div class="form-row mt-3">
         <div class="form-group col-12">
-          <button class="btn btn-lg btn-success btn-block px-5" [disabled]="!form.valid">
+          <button class="btn btn-lg btn-success btn-block px-5"
+            type="submit" [disabled]="!form.valid">
             Registar
           </button>
         </div>

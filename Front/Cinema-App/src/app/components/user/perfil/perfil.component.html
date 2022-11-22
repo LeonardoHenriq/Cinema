@@ -1,7 +1,7 @@
 <app-titulo [titulo]="'Perfil'" [subtitulo]="'Gerenciamento de Perfil do Usuário'"></app-titulo>
 
 <div class="card rounded shadow-sm">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row p-3">
       <div class="col-lg-3 pt-1">
         <div class="card mb-3">
@@ -14,11 +14,10 @@
             </a>
           </div>
           <div class="card-body">
-            <div class="h4 text-center mb-3">@UserName</div>
-            <div class="h7 text-bold pb-1"><b>Nome:</b> Miracles Lee Cross</div>
+            <div class="h4 text-center mb-3">@{{userUpdate.userName}}</div>
+            <div class="h7 text-bold pb-1"><b>Nome:</b> {{userUpdate.nomeCompleto}}</div>
             <div class="h7">
-              Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-              etc.
+              Função: {{userUpdate.funcao | funcaoPipe}}
             </div>
           </div>
           <div class="card-footer"></div>
@@ -50,8 +49,8 @@
         <div class="form-row">
           <div class="form-group col-sm-3">
             <label>Função</label>
-            <select class="form-control">
-              <option value=""></option>
+            <select class="form-control" formControlName="funcao" >
+              <option value="NaoInformado"></option>
               <option value="NaoInformado">Não Informado</option>
               <option value="Gerente">Gerente</option>
             </select>
@@ -87,7 +86,7 @@
         <button (click)="resetForm($event)" class="btn btn-outline-secondary mr-auto border">
           Cancelar Alteração
         </button>
-        <button class="btn btn-success" [disabled]="!form.valid">
+        <button class="btn btn-success" type="submit" >
           Salvar Alteração
         </button>
       </div>

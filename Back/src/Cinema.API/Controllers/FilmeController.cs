@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace Cinema.API.Controllers
 {
-    //[Authorize(Roles ="Gerente")]
+    [Authorize(Roles ="Gerente")]
     [ApiController]
     [Route("api/[controller]")]
     public class FilmeController : ControllerBase

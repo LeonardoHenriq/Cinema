@@ -40,12 +40,12 @@
           <td>{{sessao.horarioInicial | date:"HH:mm"}}</td>
           <td>{{sessao.horarioFinal | date:"HH:mm"}}</td>
           <td>{{sessao.valorIngresso | currency}}</td>
-          <td>{{sessao.tipoAnimacao}}</td>
-          <td>{{sessao.tipoAudio}}</td>
+          <td>{{sessao.tipoAnimacao| TipoAnimacaoPipe}}</td>
+          <td>{{sessao.tipoAudio | TipoAudioPipe}}</td>
           <td>{{sessao.sala.nome}}</td>
           <td>{{sessao.sala.quantidadeAssentos}}</td>
           <td>
-            <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir" (click)="openModal(template)">
+            <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir" (click)="openModal(template,sessao.id)">
               <i class="fa fa-trash"></i>
             </button>
           </td>
@@ -53,7 +53,7 @@
       </tbody>
       <tfoot *ngIf="!sessoes.length">
         <tr>
-          <td colspan="8" class="text-center"><h4>Nenhuma Sessão encontrado</h4></td>
+          <td colspan="12" class="text-center"><h4>Nenhuma Sessão encontrada</h4></td>
         </tr>
       </tfoot>
     </table>

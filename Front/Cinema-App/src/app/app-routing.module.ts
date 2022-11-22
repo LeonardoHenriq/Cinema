@@ -17,6 +17,7 @@ import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -26,28 +27,36 @@ const routes: Routes = [
       {path: 'registration', component: RegistrationComponent},
     ]
   },
-  {path:'user/perfil',component : PerfilComponent},
-  {path: 'filmes',redirectTo : 'filmes/lista'},
-  {path: 'sessoes',redirectTo : 'sessoes/lista'},
+
   {
-    path:'filmes',component : FilmesComponent,
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate : [AuthGuard],
     children: [
-      {path:'detalhe/:id',component : FilmeDetalheComponent},
-      {path:'detalhe',component : FilmeDetalheComponent},
-      {path:'lista',component : FilmeListaComponent}
+      {path:'user/perfil',component : PerfilComponent},
+      {path: 'filmes',redirectTo : 'filmes/lista'},
+      {path: 'sessoes',redirectTo : 'sessoes/lista'},
+      {
+        path:'filmes',component : FilmesComponent,
+        children: [
+          {path:'detalhe/:id',component : FilmeDetalheComponent},
+          {path:'detalhe',component : FilmeDetalheComponent},
+          {path:'lista',component : FilmeListaComponent}
+        ]
+      },
+      {path:'salas',component : SalasComponent},
+      {
+        path:'sessoes',component : SessoesComponent,
+        children: [
+          {path:'novo',component : SessaoNovoComponent},
+          {path:'lista',component : SessaoListaComponent}
+        ]
+      },
+      {path:'dashboard',component : DashboardComponent},
+      {path:'',redirectTo : 'dashboard', pathMatch: 'full'},
+      {path:'**',redirectTo : 'dashboard', pathMatch: 'full'},
     ]
-  },
-  {path:'salas',component : SalasComponent},
-  {
-    path:'sessoes',component : SessoesComponent,
-    children: [
-      {path:'novo',component : SessaoNovoComponent},
-      {path:'lista',component : SessaoListaComponent}
-    ]
-  },
-  {path:'dashboard',component : DashboardComponent},
-  {path:'',redirectTo : 'dashboard', pathMatch: 'full'},
-  {path:'**',redirectTo : 'dashboard', pathMatch: 'full'},
+  }
 ];
 
 @NgModule({

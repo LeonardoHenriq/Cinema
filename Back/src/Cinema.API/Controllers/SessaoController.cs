@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cinema.API.Controllers
 {
-    //[Authorize(Roles ="Gerente")]
+    [Authorize(Roles ="Gerente")]
     [ApiController]
     [Route("api/[controller]")]
     public class SessaoController : ControllerBase
@@ -51,37 +51,6 @@ namespace Cinema.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar sessões: {ex.Message}");
             }
         }
-        [HttpGet("/salas-available")]
-        public async Task<IActionResult> SalasAvailable(DateTime inicial, DateTime final)
-        {
-            try
-            {
-                var sessao = await _sessaoService.GetSalasDisponiveisAsync(inicial, final);
-                if (sessao == null) return NoContent();
-
-                return Ok(sessao);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar salas disponiveis: {ex.Message}");
-            }
-        }
-
-        [HttpGet("duracao-filme/{id}")]
-        public async Task<IActionResult> DuracaoFilme(int id)
-        {
-            try
-            {
-                var duracao = await _sessaoService.GetDuracaoFilme(id);
-                if (TimeSpan.Parse(duracao) == new TimeSpan()) return NoContent();
-
-                return Ok(new {duracao = duracao});
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar duração do filme: {ex.Message}");
-            }
-        }
 
         [HttpPost]
         public async Task<IActionResult> Post(SessaoDto model)
@@ -111,6 +80,26 @@ namespace Cinema.API.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar excluir sessão: {ex.Message}");
             }
+        }
+        [HttpGet("gethorarios")]
+        public async Task<IActionResult> GetHorarios(DateTime dataSessao, string horarioInicial,int idfilme)
+        {
+            try
+            {
+                var duracao = await _sessaoService.GetDuracaoFilme(idfilme);
+                var auxini = TimeSpan.Parse(horarioInicial);
+                var auxduracao = TimeSpan.Parse(duracao);
+                var inicial = dataSessao.AddTicks(auxini.Ticks);
+                var final = inicial.AddTicks(auxduracao.Ticks);
+
+                return Ok(new {inicial = inicial, final = final});
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar calcular datas: {ex.Message}");
+            }
+
         }
     }
 }

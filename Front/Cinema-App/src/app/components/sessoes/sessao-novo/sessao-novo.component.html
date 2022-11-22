@@ -1,24 +1,24 @@
 
 <div class="card rounded shadow-sm">
-  <form [formGroup]="form">
+  <form #sessaoForm="ngForm" (ngSubmit)="salvarSessao()">
     <div class="p-3">
       <div class="form-row">
         <div class="form-group col-md-2">
           <label>Valor do Ingresso</label>
           <input class="form-control" currencyMask
           [options]="{prefix: 'R$ ',thousands:'.',decimal:',',align:'left'}"
-          [ngClass]="cssValidator(f.valorIngresso)" formControlName="valorIngresso">
+         [(ngModel)] = "model.valorIngresso" required name="valorIngresso">
         </div>
         <div class="form-group col-md-2">
           <label>Tipo Animação</label>
-          <select class="form-control" formControlName="tipoAnimacao" [ngClass]="cssValidator(f.tipoAnimacao)">
+          <select class="form-control"  [(ngModel)] = "model.tipoAnimacao" required name="tipoAnimacao" >
             <option value="DoisD">2D</option>
             <option value="TresD">3D</option>
           </select>
         </div>
         <div class="form-group col-md-2">
           <label>Tipo Audio</label>
-          <select class="form-control" formControlName="tipoAudio" [ngClass]="cssValidator(f.tipoAudio)">
+          <select class="form-control"  [(ngModel)] = "model.tipoAudio" required name="tipoAudio" >
             <option value="Original">Original</option>
             <option value="Dublado">Dublado</option>
           </select>
@@ -27,30 +27,28 @@
       <div class="form-row">
         <div class="form-group col-md-3">
           <label>Filme</label>
-          <select class="form-control">
-            <option *ngFor="let filme of filmes" formControlName="filmeId" [ngClass]="cssValidator(f.filmeId)" value={{filme.id}}>
+          <select class="form-control"  [(ngModel)] = "model.filmeId" required name="filmeId" >
+            <option *ngFor="let filme of filmes" value={{filme.id}}>
               {{filme.titulo}}
             </option>
           </select>
         </div>
         <div class="form-group col-md-3">
           <label>Data Sessão</label>
-          <input bsDatepicker [bsConfig]="bsConfig" formControlName="dataSessao" placeholder="01/01/2022" [ngClass]="cssValidator(f.dataSessao)" class="form-control" >
+          <input bsDatepicker [bsConfig]="bsConfig"  [(ngModel)] = "model.dataSessao" required name="dataSessao"
+          placeholder="01/01/2022"class="form-control" >
         </div>
         <div class="form-group col-md-3">
           <label>Horario Inicial</label>
-          <input type="time" class="form-control" formControlName="horarioInicial" [ngClass]="cssValidator(f.horarioInicial)">
-        </div>
-         <div class="form-group col-md-3">
-          <label>Horario Final</label>
-          <input type="time" class="form-control" disabled >
+          <input type="time" class="form-control"  (change)="carregaSalas()"
+           [(ngModel)] = "model.horarioInicial" name="horarioInicial" >
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-4">
           <label>Sala</label>
-          <select class="form-control" [disabled]="!form.valid" [ngClass]="cssValidator(f.salaId)">
-            <option *ngFor="let sala of salas" formControlName="salaId" value={{sala.id}}>
+          <select class="form-control" [(ngModel)] = "model.salaId" required name="salaId">
+            <option *ngFor="let sala of salas"  value={{sala.id}}>
               {{sala.nome}}
             </option>
           </select>
@@ -62,14 +60,11 @@
         <button class="btn btn-outline-secondary mr-auto border">
           Cancelar Alteração
         </button>
-        <button class="btn btn-success" [disabled]="!form.valid">
+        <button class="btn btn-success" type="submit" >
           Salvar Sessão
         </button>
       </div>
     </div>
   </form>
 </div>
-<p>
-
-</p>
 

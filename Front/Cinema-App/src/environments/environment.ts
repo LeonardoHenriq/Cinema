@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   //:5001 para usar com cli
-  apiURL: 'https://localhost:5001/',
+  //apiURL: 'https://localhost:5001/',
   //:44334 para usar no visual studio com iis
-  //apiURL: 'https://localhost:44334/',
+  apiURL: 'https://localhost:44334/',
 };
 
 /*

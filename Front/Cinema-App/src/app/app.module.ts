@@ -1,7 +1,10 @@
+import { FuncaoPipe } from './helpers/funcao.pipe';
+import { TipoAudioPipe } from './helpers/TipoAudio.pipe';
+import { TipoAnimacaoPipe } from './helpers/TipoAnimacao.pipe';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -46,12 +49,16 @@ import { SessaoListaComponent } from './components/sessoes/sessao-lista/sessao-l
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 defineLocale('pt-br', ptBrLocale)
 
 @NgModule({
   declarations: [
     AppComponent,
+    FuncaoPipe,
+    TipoAnimacaoPipe,
+    TipoAudioPipe,
     FilmesComponent,
     SalasComponent,
     SessoesComponent,
@@ -96,9 +103,9 @@ defineLocale('pt-br', ptBrLocale)
     FilmeService,
     SalaService,
     SessaoService,
-    AccountService
+    AccountService,
+    { provide: HTTP_INTERCEPTORS, useClass : JwtInterceptor, multi: true},
   ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

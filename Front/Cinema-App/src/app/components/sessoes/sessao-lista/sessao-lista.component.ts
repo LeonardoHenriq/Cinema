@@ -18,6 +18,8 @@ export class SessaoListaComponent implements OnInit  {
 
   public sessoesFiltrados : Sessao[] = [];
 
+  public sessaoId: number;
+
   private _filtroLista: string = ''
 
   public get filtroLista() : string{
@@ -65,13 +67,28 @@ export class SessaoListaComponent implements OnInit  {
     });
   }
 
-  public openModal(template: TemplateRef<any>): void {
+  public openModal(template: TemplateRef<any>,sessaoId: number): void {
+    this.sessaoId = sessaoId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   public confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('A Sessão foi excluida com sucesso!','Excluido!');
+
+    this.sessaoService.deleteSessao(this.sessaoId).subscribe(
+       (result : any) => {
+
+        result.message ==='Excluido' ?
+          this.toastr.success(result.message,'Excluido!'):
+          this.toastr.error(result.message,'Erro');
+
+          this.getSessoes();
+      },
+     (error: any) => {
+        console.log(error);
+        this.toastr.error('Erro ao tentar excluir a sessao', 'Erro');
+      }
+  ).add(()=> this.spinner.hide());
   }
 
   public decline(): void {

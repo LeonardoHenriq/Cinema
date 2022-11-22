@@ -90,17 +90,23 @@ namespace Cinema.API.Controllers
         {
             try
             {
+                if (userUpdateDto.UserName != User.GetUserName())
+                    return Unauthorized("Usuario invalido!");
+
                 var user = await _accountService.GetUserByUserNameAsync(User.GetUserName());
 
                 if (user == null) return Unauthorized("Usuário inválido.");
-
-                if(user.Id != userUpdateDto.Id) return Unauthorized("Usuário inválido.");
 
                 var userReturn = await _accountService.UpdateAccount(userUpdateDto);
                 if (userReturn == null)
                     return NoContent();
 
-                return Ok(userReturn);
+                return Ok(new
+                {
+                    userName = userReturn.UserName,
+                    nomeCompleto = userReturn.NomeCompleto,
+                    token = _tokenService.CreateToken(userReturn).Result
+                });
             }
             catch (Exception ex)
             {
