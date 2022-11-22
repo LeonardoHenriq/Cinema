@@ -61,6 +61,9 @@ export class SessaoListaComponent implements OnInit  {
       error : (error : any) => {
         console.log(error);
         this.spinner.hide();
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao Carregar Sessões','Erro!');
       },
       complete: () => this.spinner.hide()
@@ -86,6 +89,9 @@ export class SessaoListaComponent implements OnInit  {
       },
      (error: any) => {
         console.log(error);
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao tentar excluir a sessao', 'Erro');
       }
   ).add(()=> this.spinner.hide());

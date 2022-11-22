@@ -29,10 +29,12 @@ export class SalasComponent implements OnInit  {
       },
       error : (error : any) => {
         console.log(error);
-        this.spinner.hide();
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao Carregar os Salas','Erro!');
       },
       complete: () => this.spinner.hide()
-    });
+    }).add(()=>this.spinner.hide());
   }
 }

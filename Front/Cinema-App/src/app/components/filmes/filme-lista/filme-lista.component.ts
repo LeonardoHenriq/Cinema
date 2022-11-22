@@ -73,6 +73,9 @@ export class FilmeListaComponent implements OnInit {
       (error : any) => {
         console.log(error);
         this.spinner.hide();
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao Carregar os Filmes','Erro!');
       }
     ).add(() => this.spinner.hide());
@@ -98,7 +101,10 @@ export class FilmeListaComponent implements OnInit {
       },
      (error: any) => {
         console.log(error);
-        this.toastr.error('Erro ao tentar excluir o filme', 'Erro');
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
+        this.toastr.error(error.error, 'Erro');
       }
   ).add(()=> this.spinner.hide());
   }

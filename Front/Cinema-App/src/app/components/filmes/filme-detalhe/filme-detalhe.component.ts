@@ -57,6 +57,9 @@ export class FilmeDetalheComponent implements OnInit {
           }
         },
         error: (error: any) =>{
+          if(error.status === 0){
+            this.toastr.info('Usuário sem permissão','Sem Permissão!');
+          }else
           this.toastr.error('Erro ao tentar carregar o filme','Erro!');
           console.log(error);
         },
@@ -101,7 +104,10 @@ export class FilmeDetalheComponent implements OnInit {
         },
         error:(error: any)=>{
           console.log(error);
-          this.toastr.error('Erro ao tentar salvar o filme','Erro');
+          if(error.status === 0){
+            this.toastr.info('Usuário sem permissão','Sem Permissão!');
+          }else
+          this.toastr.error(error.error,'Erro');
         }
       }).add(()=> this.spinner.hide());
     }
@@ -126,6 +132,9 @@ export class FilmeDetalheComponent implements OnInit {
         this.toastr.success('Imagem Atualizada com sucesso!','Sucesso!');
       },
       error: (error : any) =>{
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao fazer upload de imagem','Sucesso!');
         console.log(error);
       },

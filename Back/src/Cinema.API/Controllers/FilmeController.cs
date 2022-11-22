@@ -132,7 +132,7 @@ namespace Cinema.API.Controllers
                     DeleteImage(filme.ImagemURL);
                     return Ok(new {message = result});
                 }else
-                throw new Exception("ocorreu uma fala interna");
+                return BadRequest(result);
             }
             catch (Exception ex)
             {

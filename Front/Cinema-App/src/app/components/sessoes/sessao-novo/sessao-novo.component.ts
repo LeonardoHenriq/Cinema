@@ -62,6 +62,9 @@ export class SessaoNovoComponent implements OnInit  {
       },
       (error : any) => {
         console.log(error);
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao Carregar os Filmes','Erro!');
       }
     ).add(()=> this.spinner.hide());
@@ -80,6 +83,9 @@ export class SessaoNovoComponent implements OnInit  {
         },
         (error: any) => {
           console.log(error);
+          if(error.status === 0){
+            this.toastr.info('Usuário sem permissão','Sem Permissão!');
+          }else
           this.toastr.error('Erro ao tentar buscar a duração do filme','Erro!')
         },
       ).add(()=> this.spinner.hide());
@@ -95,7 +101,10 @@ export class SessaoNovoComponent implements OnInit  {
       () => {this.router.navigateByUrl('/sessoes');},
       (error: any) => {
         console.log(error);
-        this.toastr.error('Erro ao tentar cadastrar uma sessao','Erro!')
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
+        this.toastr.error(error.error,'Erro!')
       }
     ).add(() => this.spinner.hide())
 
@@ -110,6 +119,9 @@ export class SessaoNovoComponent implements OnInit  {
       error : (error : any) => {
         console.log(error);
         this.spinner.hide();
+        if(error.status === 0){
+          this.toastr.info('Usuário sem permissão','Sem Permissão!');
+        }else
         this.toastr.error('Erro ao Carregar os Salas','Erro!');
       },
       complete: () => this.spinner.hide()

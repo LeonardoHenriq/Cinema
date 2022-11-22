@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Cinema.API.Controllers
 {
-    [Authorize(Roles ="Gerente")]
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
