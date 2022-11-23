@@ -23,8 +23,7 @@ banco de dados utilizado foi Sqlite
 2. [Versão para Windows 32-bits](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-5.0.214-windows-x86-installer)
 
 ### Clone o Projeto
-1. Fork o [Cinema](https://github.com/vsandrade/ProEventos/fork)
-2. Clone o repo que voce deu forked.
+1. Clone o repositório [Cinema](https://github.com/LeonardoHenriq/Cinema)
 
 ### Restauração de Pacotes do projeto
 
