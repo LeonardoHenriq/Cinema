@@ -8,7 +8,9 @@ banco de dados utilizado foi Sqlite
 1. sqlite não necessita de instalação, porém se quiser ver os registros das tabelas
 1. opcional* [Sqlite Browser Donwload](https://sqlitebrowser.org/dl/)
 2. opcional* abra o sqlite browser e arraste o arquivo cinema.db que se encontra dentro do caminho /Back/src/Cinema.API
-3. opcional* utilizei o editor Visual Studio code para codar o projeto angular 
+![image](https://user-images.githubusercontent.com/44528586/203523247-1e739eba-cfb8-40ab-879f-c30547f5ac3d.png)
+
+
 
 
 ## Setup de instalações
@@ -37,8 +39,8 @@ banco de dados utilizado foi Sqlite
 ## Rodando os projetos
 
 ## Ressalvas
-Antes de rodar o projeto frontend, verifique o arquivo environments.ts existem existe uma urlAPI para rodar via CLI e outra que é do Visual studio,
-comente a que não for usar ou adicione alguma para fazer uso dos endpoints do projeto de backend .
+Antes de rodar o projeto frontend, verifique o arquivo environments.ts , existe uma urlAPI que é para CLI e outra que é do Visual studio,
+comente a que não for usar ou adicione alguma para fazer uso dos endpoints do projeto de backend.
 
 caminho : front/cinema-app/src/environments/environments.ts
 
