@@ -1,8 +1,9 @@
 # Cinema
 
-Projeto backend em .NET core
-Projeto frontend em Angular
-banco de dados utilizado foi Sqlite
+Projeto backend em .NET core,
+Projeto frontend em Angular,
+banco de dados utilizado foi Sqlite,
+Testes Unitarios Feitos com o XUnit
 
 ## Considerações
 1. sqlite não necessita de instalação, porém se quiser ver os registros das tabelas
