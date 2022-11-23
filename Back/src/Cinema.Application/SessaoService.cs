@@ -15,12 +15,14 @@ namespace Cinema.Application
     public class SessaoService : ISessaoService
     {
         private readonly ISessaoPersist _sessaoPersist;
+        private readonly ISalaPersist _salaPersist;
         private readonly IGeralPersist _geralPersist;
         private readonly IMapper _mapper;
 
-        public SessaoService(ISessaoPersist sessaoPersist, IGeralPersist geralPersist, IMapper mapper)
+        public SessaoService(ISessaoPersist sessaoPersist,ISalaPersist salaPersist, IGeralPersist geralPersist, IMapper mapper)
         {
             _sessaoPersist = sessaoPersist;
+            _salaPersist = salaPersist;
             _geralPersist = geralPersist;
             _mapper = mapper;
         }
@@ -112,7 +114,7 @@ namespace Cinema.Application
             try
             {
                 var usadas = await _sessaoPersist.SalaIsUsedAsync(inicial, final);
-                var todas = await _sessaoPersist.SalasAvailableAsync();
+                var todas = await _salaPersist.GetAllSalasAsync();
 
                 var salasUsadas = _mapper.Map<List<SalaDto>>(usadas);
                 var salas = _mapper.Map<List<SalaDto>>(todas);

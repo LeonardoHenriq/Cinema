@@ -58,17 +58,12 @@ namespace Cinema.Persistence
 
             return await query.AnyAsync();
         }
-        public async Task<List<Sala>> SalasAvailableAsync()
-        {
-            IQueryable<Sala> salas = _context.Salas;
-
-            return await salas.ToListAsync();
-        }
         public async Task<List<Sala>> SalaIsUsedAsync(DateTime inicial, DateTime final)
         {
             IQueryable<Sessao> Sessoes = _context.Sessoes;
-            var salas = Sessoes.AsNoTracking().Where(s => inicial >= s.HorarioInicial && inicial <= s.HorarioFinal ||
-                                                      final <= s.HorarioInicial && final >= s.HorarioFinal).Select(s => s.sala).ToListAsync();
+            var salas = Sessoes.AsNoTracking().Where(s => (inicial >= s.HorarioInicial && inicial <= s.HorarioFinal) ||
+                                    (final <= s.HorarioInicial && final >= s.HorarioFinal)).Select(s => s.sala).ToListAsync();
+
             return await salas;
         }
         public async Task<bool> SalaAvailableAsync(int salaId, DateTime inicial, DateTime final)

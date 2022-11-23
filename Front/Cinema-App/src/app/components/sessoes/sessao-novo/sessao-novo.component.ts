@@ -52,7 +52,7 @@ export class SessaoNovoComponent implements OnInit  {
 
   ngOnInit(): void {
     this.getFilmes();
-    this.getSalas();
+    // this.getSalas();
   }
   public getFilmes(): void{
 
@@ -76,21 +76,21 @@ export class SessaoNovoComponent implements OnInit  {
     this.spinner.show();
 
     if(this.model.filmeId !== 0 && this.model.dataSessao && this.model.horarioInicial){
-      this.sessaoService.getHorarios(this.model.filmeId,this.model.dataSessao,this.model.horarioInicial.toString()).subscribe(
-        (retorno: any) => {
-          this.datas = retorno;
-          this.model.horarioFinal = this.datas.final;
+      this.sessaoService.getSalasAvailable(this.model.filmeId,this.model.dataSessao,this.model.horarioInicial.toString()).subscribe(
+        (_Salas: any) => {
+          this.salas = _Salas
         },
         (error: any) => {
           console.log(error);
           if(error.status === 0){
             this.toastr.info('Usuário sem permissão','Sem Permissão!');
           }else
-          this.toastr.error('Erro ao tentar buscar a duração do filme','Erro!')
+          this.toastr.error(error.error,'Erro!')
         },
       ).add(()=> this.spinner.hide());
-
-      this.getSalas();
+    }else{
+      this.spinner.hide();
+      this.toastr.info('complete os campos filme data da sessão e horario inicial','Erro');
     }
 
   }
@@ -108,24 +108,6 @@ export class SessaoNovoComponent implements OnInit  {
       }
     ).add(() => this.spinner.hide())
 
-  }
-
-  public getSalas(): void{
-
-    this.salaService.getSalas().subscribe({
-      next : (_Salas: Sala[]) => {
-        this.salas = _Salas
-      },
-      error : (error : any) => {
-        console.log(error);
-        this.spinner.hide();
-        if(error.status === 0){
-          this.toastr.info('Usuário sem permissão','Sem Permissão!');
-        }else
-        this.toastr.error('Erro ao Carregar os Salas','Erro!');
-      },
-      complete: () => this.spinner.hide()
-    });
   }
 
   public cssValidator(campoForm: FormControl): any {

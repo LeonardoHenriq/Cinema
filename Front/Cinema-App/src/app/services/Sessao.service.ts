@@ -20,15 +20,14 @@ public getSessaoById(idSessao : number): Observable<Sessao>{
   return this.http.get<Sessao>(`${this.baseURL}/${idSessao}`).pipe(take(1));
 }
 
-public getHorarios(idfilme : number, datasessao: Date, horarioInicial: string){
+public getSalasAvailable(idfilme : number, datasessao: Date, horarioInicial: string):Observable<Sala[]>{
 
   let data = new HttpParams()
   .set('dataSessao',datasessao.toDateString())
   .set('horarioInicial',horarioInicial)
   .set('idfilme',idfilme.toString());
 
-  return this.http.get<any>(`${this.baseURL}/gethorarios`,{params: data}).pipe(take(1))
-
+  return this.http.get<any>(`${this.baseURL}/salas-available`,{params: data}).pipe(take(1))
 }
 
 public postSessao(sessao : Sessao): Observable<Sessao>{
